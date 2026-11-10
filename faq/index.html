@@ -1,0 +1,128 @@
+<!doctype html>
+<!-- Built by Spoilies/tools/build_site_pages.py from planning/website-faq.md. Don't edit by hand: change the draft and re-run. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1B1B2F">
+<meta name="color-scheme" content="dark">
+<title>Help & FAQ · Spoilies</title>
+<meta name="description" content="Answers about Spoilies, the iMessage app for movies and TV: how it works, privacy, and how to get help.">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<link rel="icon" type="image/png" href="/apple-touch-icon.png?v=2">
+<link rel="canonical" href="https://spoilies.app/faq/">
+<!-- No scripts: this page runs nothing and sets no cookies. -->
+<style>
+  :root { --bg: #1B1B2F; --bg-deep: #12121F; --text: #FFFFFF; --muted: #B4B4CC; --gold: #F5C842; --blue: #0A84FF; }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); color-scheme: dark; }
+  body { margin: 0; background: linear-gradient(180deg, #22223a 0, var(--bg) 320px, var(--bg-deep) 100%); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; line-height: 1.55; }
+  header { max-width: 720px; margin: 0 auto; padding: 22px 20px 0; }
+  header a { color: var(--text); text-decoration: none; font-weight: 800; font-size: 20px; letter-spacing: -.02em; display: inline-flex; align-items: center; gap: 10px; }
+  header img { width: 32px; height: 32px; border-radius: 8px; }
+  header span { color: var(--gold); }
+  main { max-width: 720px; margin: 0 auto; padding: 8px 20px 48px; }
+  h1 { font-size: 34px; letter-spacing: -.02em; margin: 26px 0 8px; }
+  h2 { font-size: 22px; margin: 34px 0 8px; padding-top: 14px; border-top: 1px solid #2e2e4a; }
+  h3 { font-size: 17px; margin: 22px 0 6px; }
+  p, li, td, th { font-size: 16px; color: #E6E6F0; }
+  ul { padding-left: 22px; } li { margin: 6px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; display: block; overflow-x: auto; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid #2e2e4a; font-size: 14px; }
+  th { color: #fff; }
+  code { font-size: .9em; background: #2a2a44; padding: 1px 5px; border-radius: 4px; }
+  strong { color: #fff; }
+  a { color: #5EB0FF; }
+  mark { background: #ff453a; color: #fff; padding: 0 4px; border-radius: 4px; }
+  @media (max-width: 600px) {
+    table, tbody, tr, td { display: block; } thead { display: none; }
+    tr { padding: 10px 0; border-bottom: 1px solid #2e2e4a; }
+    td { border: 0; padding: 3px 0; }
+    td::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  }
+  footer { text-align: center; font-size: 12px; color: #8a8aa8; padding: 0 16px 28px; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<header><a href="/"><img src="/apple-touch-icon.png" alt=""><b>Spoil<span>ies</span></b></a></header>
+<main>
+<h1>Help &amp; FAQ</h1>
+<h2>The basics</h2>
+<h3>What is Spoilies?</h3>
+<p>Spoilies is an iMessage app for talking about movies and TV with your friends. Mark what you've watched, rate it, and talk about it in a chat that stays hidden until you've seen it, right in Messages, in one-on-one or group chats.</p>
+<h3>Where do I find it?</h3>
+<p>Open a conversation in Messages, tap <strong>+</strong>, then <strong>More</strong>, then <strong>Spoilies</strong>. There's no home-screen app: Spoilies lives inside Messages.</p>
+<h3>Does it cost anything?</h3>
+<p>No. Spoilies is free.</p>
+<h3>Do I need an account or a password?</h3>
+<p>No. There's nothing to sign up for. You pick the name your friends see, and that's it.</p>
+<h3>Do my friends need Spoilies too?</h3>
+<p>To join in, yes. Anyone in the chat sees your Spoilies cards ("Ryan watched and rated …"), and can get Spoilies free from the App Store.</p>
+<h3>Which devices does it work on?</h3>
+<p>iPhone, with iOS 18 or later. Spoilies isn't available on iPad or Mac.</p>
+<h2>Privacy and security</h2>
+<h3>Who can see what I post?</h3>
+<p>Only the people in that conversation. Spoilies has no public profiles, feeds, followers or search for other users. Each chat is its own private space.</p>
+<h3>Can Spoilies (or anyone else) read my messages?</h3>
+<p>No. Your messages and your name are <strong>encrypted on your iPhone</strong> before they leave it, using Apple's built-in cryptographic algorithms with AES-256, the same encryption standard Apple uses for iMessage. Each conversation has its own secret key. The key is shared only inside iMessage, which Apple encrypts end to end. Our server never receives the key, so neither we nor our hosting providers can read what you write. Separately, unless you turn it off, Spoilies shares anonymous movie and TV stats (below). They never include what you wrote, who you are or which chat you're in.</p>
+<h3>Then why is there a server at all?</h3>
+<p>So every conversation is kept up to date. The server stores records encrypted with AES-256 and hands them to the other phones in your chat, which decrypt them with the key.</p>
+<h3>What <em>can</em> the server see?</h3>
+<p>That an installation with a random ID wrote a record, encrypted with AES-256, of about this size to a random chat code at this time. Like any internet service, it also receives your iPhone's network address to answer the request; we don't store it with your records. It can tell which random IDs post in the same chat, but not whose they are. It can't see names or messages, and it sees movies and ratings only as anonymous stats.</p>
+<h3>What does Spoilies collect about me?</h3>
+<ul>
+<li>Your group's chat log, encrypted with AES-256, which we can't read.</li>
+<li>A random ID for Spoilies on your iPhone, created by an invisible sign-in. It isn't tied to your name, phone number, email or Apple ID, and it stays if you delete and reinstall Spoilies.</li>
+<li>A check from Apple that helps make sure requests come from Spoilies on a real iPhone, which keeps out fake traffic.</li>
+<li>Anonymous movie and TV stats, if you keep them on (below).</li>
+<li>Crash reports, only if you've chosen to share analytics with app developers in your iPhone's settings; Apple sends them, without your name.</li>
+</ul>
+<p>No tracking across other apps, and we don't sell your personal data.</p>
+<h3>What are anonymous movie stats?</h3>
+<p>Anonymous information about what's popular on Spoilies: which movies and shows people are watching and talking about. We use it to understand trends and make Spoilies better. It's never stored with anything that could identify you, it never includes what you wrote, and we will never try to work out who is behind it. Our reports only show results of 10 or more (a data threshold), so no one can be singled out.</p>
+<p>It's your choice. <strong>Share Anonymous Movie Stats</strong> starts on, but nothing is shared until you tap <strong>Save and Confirm</strong> when you first pick your name. You can turn it off then, or anytime in Settings. Friends who keep it on still share theirs, but never what anyone wrote or who did what.</p>
+<h3>Does Spoilies see my contacts or my other messages?</h3>
+<p>No. iMessage apps can't read your conversations or your contacts.</p>
+<h3>What about movie and TV searches?</h3>
+<p>When you search or open a movie or show, your phone asks The Movie Database (TMDB) for titles, details and posters. TMDB sees the search words, which titles your phone loads and your network address, but not who you are or which chat you're in.</p>
+<h3>What happens if someone leaves the group text?</h3>
+<p>Spoilies makes a new key for the chat the next time someone still in it sends a Spoilies card. From then on, the person who left can't read anything new; they can still read what was sent before, just as with Messages itself.</p>
+<h3>Can I hide that I'm reading or typing?</h3>
+<p>Yes. Open Settings (tap the circle with your initial at the top of Spoilies) and turn off <strong>Show Chat Activity</strong>. Your friends won't see when you're in a movie chat or typing; you still see theirs.</p>
+<h3>Can I delete my data?</h3>
+<p>Yes. In Settings, tap <strong>Request Data Deletion</strong>. Your iPhone is cleared straight away, and within 30 days we remove your messages, check-ins, ratings and other posts from our server. Your friends' iPhones remove their copies the next time they open Spoilies, and replies that quoted you show "Deleted message". We keep a small note in each chat that tells friends' iPhones to do this, and a record that we handled your request. Spoilies cards already sent stay in Messages, like any message.</p>
+<h3>How long do you keep my data?</h3>
+<p>Currently, your group chat's history is kept for as long as Spoilies operates, so anyone in the group can reopen older conversations, even on a new iPhone. It stays encrypted so we will never be able to read your messages. "Here" and "typing" notes are deleted when you leave the chat, or within about a day. Anonymous totals are kept to show trends.</p>
+<h3>What if I lose or replace my iPhone?</h3>
+<p>Restore from an iPhone backup or transfer and your chats come back. If a chat's key is missing, the next Spoilies card in that chat brings it back.</p>
+<h3>Is Spoilies OK for kids?</h3>
+<p>Spoilies is for people 13 and older.</p>
+<h2>Using Spoilies</h2>
+<h3>How do spoilers work?</h3>
+<p>Every movie and episode gets its own chat. Until you've marked it as watched, Spoilies keeps that chat hidden, so you never see what happens before you've seen it.</p>
+<h3>Does it do TV shows?</h3>
+<p>Yes. Check in to episodes, and each episode gets its own discussion.</p>
+<h3>How do I change my name?</h3>
+<p>Tap the circle with your initial at the top of Spoilies, change your name, and tap <strong>Save</strong>.</p>
+<h3>Can I use Spoilies in more than one group chat?</h3>
+<p>Yes. Each conversation has its own movies, ratings and chats.</p>
+<h3>What's "Want to Watch"?</h3>
+<p>Mark movies and shows you want to see, and see who in the chat wants to watch them too.</p>
+<h3>Where does the movie information come from?</h3>
+<p>The Movie Database (TMDB). Spoilies uses the TMDB API but is not endorsed or certified by TMDB.</p>
+<h2>Troubleshooting</h2>
+<h3>Spoilies cards look blank after an update.</h3>
+<p>Close Messages and reopen it.</p>
+<h3>A friend's message isn't showing up.</h3>
+<p>Close the movie or episode chat and open it again, and check you're online. If it still doesn't show, close Messages and reopen it.</p>
+<h3>I tapped a card link outside Messages and it says to open it on my iPhone.</h3>
+<p>Spoilies cards only work inside Messages on iPhone. Open the conversation there and tap the card.</p>
+<h3>How do I contact you?</h3>
+<p>Email <strong><a href="mailto:support@spoilies.app">support@spoilies.app</a></strong> (for privacy questions, <strong><a href="mailto:privacy@spoilies.app">privacy@spoilies.app</a></strong>). We read every message.</p>
+<hr />
+</main>
+<footer>© 2026 Spoilies · <a href="/">Home</a> · <a href="/privacy/">Privacy</a></footer>
+</body>
+</html>
