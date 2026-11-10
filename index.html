@@ -1,103 +1,63 @@
 <!doctype html>
+<!-- Cookie banner and Google Analytics (FEAT-046). Analytics runs only after Accept; the privacy policy at /privacy/ describes it. -->
 <html lang="en">
 <head>
+<!-- Google consent mode: everything denied until the visitor taps Accept (FEAT-046). Loads nothing by itself. -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' });
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0d0d10">
+<meta name="theme-color" content="#1B1B2F">
 <meta name="color-scheme" content="dark">
 <title>Spoilies: Movies &amp; TV with Friends · iMessage App</title>
-<meta name="description" content="Check in, rate and talk movies and TV with your group chat, right inside iMessage.">
+<meta name="description" content="Keep the chat spoiler-free. Rate and talk about the biggest movies and TV shows with your friends in iMessage, in one-on-one and group chats.">
 <!-- link previews (the bubble iMessage shows when someone sends this link) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Spoilies">
 <meta property="og:title" content="Spoilies">
-<meta property="og:description" content="Check in, rate and talk movies and TV with your group chat, right inside iMessage.">
+<meta property="og:description" content="Keep the chat spoiler-free. Rate and talk about the biggest movies and TV shows with your friends in iMessage, in one-on-one and group chats.">
 <meta property="og:url" content="https://spoilies.app/">
 <meta property="og:image" content="https://spoilies.app/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A film strip of chat messages (OMG, LOL) coming off a film reel, above the Spoilies name">
+<meta property="og:image:alt" content="A blue chat bubble in a gold spotlight, above the Spoilies name">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 <link rel="icon" type="image/png" href="/apple-touch-icon.png?v=2">
 <link rel="canonical" href="https://spoilies.app/">
-<!-- Site name for Google. Data only: browsers never run an ld+json block, so the page still runs no scripts. -->
+<!-- Site name for Google. Data only: browsers never run an ld+json block. -->
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "WebSite", "name": "Spoilies", "alternateName": "Spoilies: Movies & TV with Friends", "url": "https://spoilies.app/"}
 </script>
-<!-- spoilies.app (FEAT-007, FEAT-040). No scripts that run: the page never reads the link (card links carry the chat key after #). -->
+<!-- spoilies.app (FEAT-007, FEAT-040, FEAT-046). The home page runs one small script for the cookie banner and, only after
+     Accept, Google Analytics; it sends Google the bare address https://spoilies.app/ and never reads anything after # or ?.
+     /checkin (where card links carrying the chat key land) runs no scripts at all. -->
 <style>
   :root {
-    --bg: #0d0d10;
-    --film: #17171b;
-    --frame: #24242a;
-    --hole: #0d0d10;
-    --text: #f4f1ea;
-    --muted: #a39f97;
-    --gold: #e8b64c;
-    --blue: #0a84ff;
-    --grey: #3a3a40;
+    --bg: #1B1B2F;          /* house navy (app icon) */
+    --bg-deep: #12121F;
+    --text: #FFFFFF;
+    --muted: #B4B4CC;       /* cool grey that reads on navy */
+    --gold: #F5C842;        /* stage gold */
+    --beam: #FFE08A;        /* spotlight gold */
+    --blue: #0A84FF;        /* iMessage blue */
   }
   * { box-sizing: border-box; margin: 0; }
   /* Safari colours its status bar and toolbar from the html background, so it must be dark too */
   html { background: var(--bg); color-scheme: dark; }
-  html, body { height: 100%; }
+  html { height: 100%; }  /* body grows with the page, so its gradient reaches the bottom */
   body {
-    background: radial-gradient(ellipse at 50% 40%, #1b1a20 0%, var(--bg) 70%);
+    background: radial-gradient(ellipse at 50% 30%, #262642 0%, var(--bg) 55%, var(--bg-deep) 100%);
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
     display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
   }
 
-  /* ---------- film strip ---------- */
-  /* tall enough for the tilted strip and the reel, so neither reaches the title */
-  .stage { position: relative; height: 300px; margin-top: 6vh; flex: none; }
-  .reel {
-    position: absolute; left: -70px; top: 50%; width: 260px; height: 260px;
-    transform: translateY(-50%); z-index: 2;
-    animation: spin 6s linear infinite;
-    filter: drop-shadow(0 10px 30px rgba(0,0,0,.6));
-  }
-  .strip {
-    position: absolute; left: 0; right: 0; top: 50%; height: 168px;
-    transform: translateY(-50%) rotate(-3deg);
-    background: var(--film);
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,.5);
-    -webkit-mask-image: linear-gradient(to right, #000 85%, transparent);
-            mask-image: linear-gradient(to right, #000 85%, transparent);
-  }
-  .track { display: flex; width: max-content; height: 100%; animation: unspool 40s linear infinite; }
-  .set { display: flex; height: 100%; }
-  .cell {
-    width: 200px; height: 100%; position: relative; flex: none;
-    /* sprocket holes top and bottom */
-    background:
-      radial-gradient(circle at 50% 50%, transparent 0, transparent 0) ,
-      repeating-linear-gradient(to right, transparent 0 10px, var(--hole) 10px 24px, transparent 24px 40px) top / 100% 12px no-repeat,
-      repeating-linear-gradient(to right, transparent 0 10px, var(--hole) 10px 24px, transparent 24px 40px) bottom / 100% 12px no-repeat;
-  }
-  .cell::before { /* rounded-ish holes illusion: inset the hole row */
-    content: ""; position: absolute; inset: 4px 0 auto 0; height: 0;
-  }
-  .pic {
-    position: absolute; top: 22px; bottom: 22px; left: 8px; right: 8px;
-    background: linear-gradient(160deg, #2b2a31, var(--frame));
-    border-radius: 4px; display: flex; align-items: center; justify-content: center;
-  }
-  .bubble {
-    font-weight: 700; font-size: 26px; letter-spacing: .02em;
-    padding: 10px 18px; border-radius: 22px; color: #fff;
-    /* always leave a margin inside the frame; a long message wraps instead of spilling out */
-    max-width: calc(100% - 24px); text-align: center; line-height: 1.15; overflow-wrap: anywhere;
-  }
-  .bubble.me { background: var(--blue); border-bottom-right-radius: 6px; }
-  .bubble.them { background: var(--grey); border-bottom-left-radius: 6px; }
-  .bubble.emoji { background: none; font-size: 54px; padding: 0; }
-  .bubble.small { font-size: 18px; }
-
   /* ---------- copy ---------- */
-  main { text-align: center; padding: 4vh 16px 40px; flex: 1; position: relative; z-index: 3; }
+  main { text-align: center; padding: 6px 16px 40px; flex: 1; position: relative; z-index: 3; }
   .logo { font-size: clamp(44px, 9vw, 76px); font-weight: 800; letter-spacing: -.03em; }
   .logo span { color: var(--gold); }
   .tag { margin-top: 10px; font-size: clamp(17px, 2.6vw, 22px); color: var(--muted); max-width: 30ch; margin-inline: auto; line-height: 1.35; }
@@ -120,92 +80,141 @@
   footer { text-align: center; font-size: 12px; color: #6b6861; padding: 0 16px 24px; }
   footer a { color: inherit; }
 
-  @keyframes unspool { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .track, .reel { animation: none; } }
-  @media (max-width: 600px) {
-    .stage { height: 220px; margin-top: 4vh; }
-    .strip { height: 124px; }
-    .cell { width: 150px; }
-    .pic { top: 17px; bottom: 17px; }
-    .bubble { font-size: 19px; padding: 8px 14px; }
-    .bubble.small { font-size: 15px; }
-    .bubble.emoji { font-size: 40px; }
-    .reel { width: 180px; height: 180px; left: -60px; }
+
+  /* ---------- cookie banner (FEAT-046; bottom of the screen, Ryan 2026-11-09, so the stage stays visible) ---------- */
+  .cookie {
+    position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 10;
+    max-width: 520px; margin-inline: auto;
+    background: rgba(30,30,52,.97); border: 1px solid #34345a; border-radius: 16px;
+    padding: 16px 16px 12px; box-shadow: 0 12px 40px rgba(0,0,0,.6);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   }
+  .cookie[hidden] { display: none; }
+  .cookie h2 { font-size: 16px; font-weight: 700; }
+  .cookie p { margin-top: 6px; font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+  .cookie .row { display: flex; gap: 10px; margin-top: 14px; }
+  /* Decline and Accept look exactly the same, so neither is pushed */
+  .cookie button { flex: 1; font: inherit; font-size: 15px; font-weight: 600; padding: 11px 0; border-radius: 11px; border: 1px solid #4a4a70; background: #2c2c48; color: var(--text); cursor: pointer; }
+  .cookie button:focus-visible, .linkbtn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .cookie .links { margin-top: 10px; text-align: center; font-size: 12px; color: #9a9ab8; }
+  .cookie .links a { color: inherit; }
+  body:has(.cookie:not([hidden])) footer { padding-bottom: 200px; }
+  .linkbtn { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+
+  /* ---------- spotlight stage (FEAT-046, agreed 2026-11-09): the app icon at full size ---------- */
+  .hero { position: relative; flex: none; height: 300px; margin: 0 auto; width: min(100%, 560px); }
+  .hero svg.light { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .beam { animation: glow 7s ease-in-out infinite; }
+  .bubble-big { position: absolute; left: 50%; top: 118px; width: 150px; height: 108px; margin-left: -75px;
+    background: var(--blue); border-radius: 36px; box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .bubble-big::after { content: ""; position: absolute; left: 28px; bottom: -22px; width: 0; height: 0;
+    border-left: 12px solid transparent; border-right: 34px solid transparent; border-top: 30px solid var(--blue); transform: skewX(-12deg); }
+  .dot { width: 18px; height: 18px; border-radius: 50%; background: #fff; animation: typing 1.4s ease-in-out infinite; }
+  .dot:nth-child(2) { animation-delay: .18s; } .dot:nth-child(3) { animation-delay: .36s; }
+  @keyframes glow { 0%,100% { opacity: .92; } 50% { opacity: 1; } }
+  @keyframes typing { 0%,60%,100% { transform: translateY(0); opacity: .75; } 30% { transform: translateY(-6px); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .beam, .dot { animation: none; } }
+  @media (max-width: 600px) {
+    .hero { height: 240px; }
+    .bubble-big { top: 92px; width: 116px; height: 84px; margin-left: -58px; border-radius: 28px; gap: 11px; }
+    .bubble-big::after { left: 20px; bottom: -18px; border-left-width: 10px; border-right-width: 26px; border-top-width: 24px; }
+    .dot { width: 14px; height: 14px; }
+  }
+  footer { color: #8a8aa8; }
+  .headline { margin-top: 6px; font-size: clamp(22px, 5vw, 30px); font-weight: 700; letter-spacing: -.01em; color: var(--text); }
+  .headline + .tag { margin-top: 8px; }
 </style>
 </head>
 <body>
 
-<div class="stage" aria-hidden="true">
-  <div class="strip">
-    <div class="track">
-      <!-- the same set twice so the loop is seamless -->
-      <div class="set">
-        <div class="cell"><div class="pic"><div class="bubble them">OMG</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me">LOL</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">😭</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble them">NO WAY</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me small">I called it</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">🍿</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble them">WHAT</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me small">that ending!!</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">🤯</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble them">5 ⭐</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me">WHO</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">💀</div></div></div>
-      </div>
-      <div class="set">
-        <div class="cell"><div class="pic"><div class="bubble them">OMG</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me">LOL</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">😭</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble them">NO WAY</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me small">I called it</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">🍿</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble them">WHAT</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me small">that ending!!</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">🤯</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble them">5 ⭐</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble me">WHO</div></div></div>
-        <div class="cell"><div class="pic"><div class="bubble emoji">💀</div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- film reel -->
-  <svg class="reel" viewBox="0 0 200 200">
-    <circle cx="100" cy="100" r="96" fill="#2c2c33"/>
-    <circle cx="100" cy="100" r="96" fill="none" stroke="#45454e" stroke-width="4"/>
-    <circle cx="100" cy="100" r="72" fill="#1b1b20"/>
-    <g fill="#0d0d10">
-      <circle cx="100" cy="52" r="20"/><circle cx="100" cy="148" r="20"/>
-      <circle cx="52" cy="100" r="20"/><circle cx="148" cy="100" r="20"/>
-      <circle cx="66" cy="66" r="14"/><circle cx="134" cy="134" r="14"/>
-      <circle cx="134" cy="66" r="14"/><circle cx="66" cy="134" r="14"/>
-    </g>
-    <circle cx="100" cy="100" r="14" fill="#e8b64c"/>
-    <circle cx="100" cy="100" r="5" fill="#0d0d10"/>
+<div class="hero" aria-hidden="true">
+  <svg class="light" viewBox="0 0 400 300" preserveAspectRatio="xMidYMin meet">
+    <defs>
+      <linearGradient id="beamFade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFE08A" stop-opacity=".95"/>
+        <stop offset=".75" stop-color="#FFE08A" stop-opacity=".55"/>
+        <stop offset="1" stop-color="#FFE08A" stop-opacity=".25"/>
+      </linearGradient>
+      <radialGradient id="pool" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#F5C842" stop-opacity=".95"/>
+        <stop offset=".7" stop-color="#F5C842" stop-opacity=".45"/>
+        <stop offset="1" stop-color="#F5C842" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="4"/></filter>
+    </defs>
+    <polygon class="beam" points="168,-20 232,-20 372,262 28,262" fill="url(#beamFade)" filter="url(#soft)"/>
+    <ellipse cx="200" cy="262" rx="176" ry="28" fill="url(#pool)"/>
   </svg>
+  <div class="bubble-big"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
 </div>
 
 <main>
   <h1 class="logo">Spoil<span>ies</span></h1>
-  <p class="tag">Check in, rate and talk movies and TV with your group chat, right inside iMessage.</p>
+  <p class="headline">Keep the chat spoiler-free.</p>
+  <p class="tag">Rate and talk about the biggest movies and TV shows with your friends, right in iMessage.</p>
   <!-- Before release: a button that goes nowhere. At launch, swap it for the App Store link:
        <a class="store" href="(App Store link)"> Apple logo + <small>Download on the</small>App Store </a> -->
   <span class="store soon">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-.9-2.4-4.1zM14 5.1c.7-.8 1.1-1.9 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>
-    <span>Coming to a group chat near you</span>
+    <span>Coming soon to iMessage</span>
   </span>
-  <p class="note">Free · iPhone · works in any iMessage chat</p>
+  <p class="note">Free · iPhone · works in iMessage</p>
   <ul class="features">
-    <li><strong>Check in</strong><span>Tap in on a movie or episode so the group knows you've watched.</span></li>
-    <li><strong>Rate it</strong><span>Give it stars and see how the whole group scored it.</span></li>
-    <li><strong>Talk without spoilers</strong><span>Every movie and episode gets its own spoiler-safe chat.</span></li>
+    <li><strong>Check in</strong><span>Mark movies and episodes you've seen to let the chat know!</span></li>
+    <li><strong>Rate it</strong><span>Let your friends know what you thought with a rating, then compare it to the group score!</span></li>
+    <li><strong>No spoilers</strong><span>Chat about any movie or TV show without worrying about spoiling it for anyone!</span></li>
   </ul>
 </main>
 
-<footer>© 2026 Spoilies · <a href="#">Privacy</a> · <a href="#">Support</a></footer>
+<footer>© 2026 Spoilies · <a href="/privacy/">Privacy</a> · <a href="/faq/">Help</a> · <button type="button" class="linkbtn" id="cookie-settings">Cookie settings</button></footer>
+
+<!-- Cookie banner (FEAT-046). Hidden until the script decides; with scripts off it never shows and Analytics never runs. -->
+<div class="cookie" id="cookie" role="dialog" aria-labelledby="cookie-title" hidden>
+  <h2 id="cookie-title">Cookies for visit counts?</h2>
+  <p>We'd like to use Google Analytics on this page to see how many people visit. It only runs if you allow it.</p>
+  <div class="row"><button type="button" id="cookie-decline">Decline</button><button type="button" id="cookie-accept">Accept</button></div>
+  <div class="links"><a href="/privacy/">Privacy Policy</a></div>
+</div>
+<script>
+(function () {
+  var KEY = 'spoilies_cookie_choice', ID = 'G-P269C1XQTZ', YEAR = 365 * 24 * 60 * 60 * 1000;
+  var box = document.getElementById('cookie'), loaded = false;
+  function read() { // the saved choice, if it's less than a year old
+    try { var v = JSON.parse(localStorage.getItem(KEY)); if (v && Date.now() - v.at < YEAR) return v.choice; } catch (e) {}
+    return null;
+  }
+  function save(choice) { try { localStorage.setItem(KEY, JSON.stringify({ choice: choice, at: Date.now() })); } catch (e) {} }
+  function loadAnalytics() {
+    if (loaded) return; loaded = true;
+    // Only the bare page address may reach Google: drop anything after ? or # from the address bar first
+    // (Google reads the address bar itself, so passing a clean page_location alone isn't enough; tested 2026-11-09)
+    if (location.search || location.hash) history.replaceState(null, '', location.pathname);
+    gtag('consent', 'update', { analytics_storage: 'granted' }); // ads stay denied
+    gtag('js', new Date());
+    var config = { page_location: location.origin + location.pathname };
+    try { if (document.referrer) config.page_referrer = new URL(document.referrer).origin + '/'; } catch (e) {}
+    gtag('config', ID, config);
+    var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+    document.head.appendChild(s);
+  }
+  function clearAnalyticsCookies() {
+    document.cookie.split(';').forEach(function (c) {
+      var name = c.split('=')[0].trim();
+      if (name.indexOf('_ga') !== 0) return;
+      ['', '; domain=spoilies.app', '; domain=.spoilies.app'].forEach(function (d) { document.cookie = name + '=; Max-Age=0; path=/' + d; });
+    });
+  }
+  document.getElementById('cookie-accept').addEventListener('click', function () { save('accepted'); box.hidden = true; loadAnalytics(); });
+  document.getElementById('cookie-decline').addEventListener('click', function () {
+    save('declined'); box.hidden = true; clearAnalyticsCookies();
+    if (loaded) location.reload(); // stop Analytics that's already running on this page
+  });
+  document.getElementById('cookie-settings').addEventListener('click', function () { box.hidden = false; document.getElementById('cookie-decline').focus(); });
+  var choice = read();
+  if (choice === 'accepted') loadAnalytics(); else if (choice !== 'declined') box.hidden = false;
+})();
+</script>
 
 </body>
 </html>
