@@ -124,6 +124,27 @@
   footer { color: #8a8aa8; }
   .headline { margin-top: 6px; font-size: clamp(22px, 5vw, 30px); font-weight: 700; letter-spacing: -.01em; color: var(--text); }
   .headline + .tag { margin-top: 8px; }
+  /* ---------- demo videos (FEAT-155): "See it in action", a Movies / TV switch like the app's, TV first ---------- */
+  .demo { margin: 44px auto 0; max-width: 760px; }
+  .demo h2 { font-size: clamp(20px, 4.4vw, 26px); font-weight: 700; letter-spacing: -.01em; }
+  .demo h2 span { color: var(--gold); }
+  .seg { position: relative; display: flex; width: 240px; height: 36px; margin: 14px auto 0; padding: 3px; border-radius: 10px; background: #1C1C24; }
+  .seg .knob { position: absolute; top: 3px; left: 3px; width: calc(50% - 3px); height: 30px; border-radius: 8px; background: #3A3D47;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3); transition: transform .35s cubic-bezier(.3,1.25,.5,1); }
+  .seg[data-on="tv"] .knob { transform: translateX(100%); }
+  .seg button { position: relative; flex: 1; font: inherit; font-size: 14px; font-weight: 700; border: 0; background: none; color: #8E8E9A; cursor: pointer; border-radius: 8px; transition: color .2s; }
+  .seg button[aria-selected="true"] { color: #fff; }
+  .seg button:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+  .frame { position: relative; margin-top: 16px; aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden;
+    background: #12121F; border: 1px solid #34345a; box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 0 6px rgba(245,200,66,.06); }
+  .frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .frame .play { position: absolute; inset: 0; margin: auto; width: 84px; height: 84px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--blue); box-shadow: 0 10px 30px rgba(10,132,255,.45), 0 0 0 8px rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; }
+  .frame .play svg { width: 30px; height: 30px; margin-left: 5px; }
+  .frame .play:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  .frame .play[hidden], .frame.playing .play { display: none; }
+  @media (max-width: 600px) { .demo { margin-top: 34px; } .frame { border-radius: 14px; } .frame .play { width: 68px; height: 68px; } .frame .play svg { width: 24px; height: 24px; } }
+  @media (prefers-reduced-motion: reduce) { .seg .knob { transition: none; } }
 </style>
 </head>
 <body>
@@ -165,6 +186,19 @@
     <li><strong>Rate it</strong><span>Let your friends know what you thought with a rating, then compare it to the group score!</span></li>
     <li><strong>No spoilers</strong><span>Chat about any movie or TV show without worrying about spoiling it for anyone!</span></li>
   </ul>
+
+  <!-- Demo videos (FEAT-155). Served from this site (no YouTube, so no cookies); nothing downloads until Play.
+       With scripts off it's the TV video with the browser's controls. When a video changes, bump its ?v= here and in the script. -->
+  <section class="demo" aria-labelledby="demo-title">
+    <h2 id="demo-title">See it <span>in action</span></h2>
+    <div class="seg" id="seg" role="tablist" aria-label="Demo video" data-on="tv"><span class="knob"></span>
+      <button type="button" role="tab" id="tab-movies" aria-selected="false" aria-controls="demo">Movies</button>
+      <button type="button" role="tab" id="tab-tv" aria-selected="true" aria-controls="demo">TV</button></div>
+    <div class="frame" id="demo" role="tabpanel" aria-labelledby="tab-tv">
+      <video id="demo-video" preload="none" playsinline controls poster="/video/spoilies-tv.jpg?v=128" src="/video/spoilies-tv.mp4?v=128" aria-label="Spoilies demo video: TV"></video>
+      <button type="button" class="play" id="demo-play" aria-label="Play the demo video" hidden><svg viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15l13-7.5z"/></svg></button>
+    </div>
+  </section>
 </main>
 
 <footer>© 2026 Spoilies · <a href="/privacy/">Privacy</a> · <a href="/faq/">FAQ</a> · <button type="button" class="linkbtn" id="cookie-settings">Cookie settings</button></footer>
@@ -177,6 +211,28 @@
   <div class="links"><a href="/privacy/">Privacy Policy</a></div>
 </div>
 <script>
+// Demo videos (FEAT-155): the poster and a play button; pressing it plays the video with sound and brings up the controls.
+// Movies / TV: each tab has its own video and poster; switching stops the one playing and shows the other's poster and button.
+(function () {
+  var v = document.getElementById('demo-video'), b = document.getElementById('demo-play'), f = document.getElementById('demo');
+  var seg = document.getElementById('seg');
+  var V = { movies: { src: '/video/spoilies-movies.mp4?v=16', poster: '/video/spoilies-movies.jpg?v=16', name: 'Movies' },
+            tv: { src: '/video/spoilies-tv.mp4?v=128', poster: '/video/spoilies-tv.jpg?v=128', name: 'TV' } };
+  v.controls = false; b.hidden = false;
+  b.addEventListener('click', function () {
+    f.classList.add('playing'); v.controls = true;
+    var p = v.play(); if (p && p.catch) p.catch(function () {}); // if the browser refuses, the controls are there to try again
+  });
+  ['movies', 'tv'].forEach(function (k) {
+    document.getElementById('tab-' + k).addEventListener('click', function () {
+      if (seg.dataset.on === k) return;
+      seg.dataset.on = k; v.pause(); v.controls = false; f.classList.remove('playing');
+      v.poster = V[k].poster; v.src = V[k].src; v.setAttribute('aria-label', 'Spoilies demo video: ' + V[k].name);
+      f.setAttribute('aria-labelledby', 'tab-' + k);
+      ['movies', 'tv'].forEach(function (j) { document.getElementById('tab-' + j).setAttribute('aria-selected', String(j === k)); });
+    });
+  });
+})();
 (function () {
   var KEY = 'spoilies_cookie_choice', ID = 'G-P269C1XQTZ', YEAR = 365 * 24 * 60 * 60 * 1000;
   var box = document.getElementById('cookie'), loaded = false;
