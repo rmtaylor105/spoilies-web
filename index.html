@@ -145,6 +145,16 @@
   .frame .play[hidden], .frame.playing .play { display: none; }
   @media (max-width: 600px) { .demo { margin-top: 34px; } .frame { border-radius: 14px; } .frame .play { width: 68px; height: 68px; } .frame .play svg { width: 24px; height: 24px; } }
   @media (prefers-reduced-motion: reduce) { .seg .knob { transition: none; } }
+  /* ---------- "See it in action" (FEAT-157, agreed 2026-11-20): TV and Movies buttons that take you down to the demo videos ---------- */
+  .jump { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .jump .jl { width: 100%; font-size: 15px; font-weight: 600; color: var(--muted); margin-bottom: -2px; }
+  .jump .jl span { color: var(--gold); }
+  .jbtn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px 0 7px; border-radius: 22px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22); color: #fff; text-decoration: none;
+    font-size: 15px; font-weight: 600; white-space: nowrap; }
+  .jbtn .pi { width: 26px; height: 26px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; flex: none; }
+  .jbtn .pi svg { width: 12px; height: 12px; margin-left: 2px; }
+  .jbtn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -181,6 +191,13 @@
     <span>Coming soon to iMessage</span>
   </span>
   <p class="note">Free · Private · works in iMessage</p>
+  <!-- "See it in action" (FEAT-157): each button switches the demo videos below to its side and scrolls them into view.
+       With scripts off they're plain links to the videos' heading. -->
+  <div class="jump">
+    <p class="jl">See it in <span>action</span></p>
+    <a class="jbtn" href="#demo-title" data-jump="tv"><span class="pi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15l13-7.5z"/></svg></span>TV</a>
+    <a class="jbtn" href="#demo-title" data-jump="movies"><span class="pi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15l13-7.5z"/></svg></span>Movies</a>
+  </div>
   <ul class="features">
     <li><strong>Check in</strong><span>Mark movies and episodes you've seen to let the chat know!</span></li>
     <li><strong>Rate it</strong><span>Let your friends know what you thought with a rating, then compare it to the group score!</span></li>
@@ -230,6 +247,19 @@
       v.poster = V[k].poster; v.src = V[k].src; v.setAttribute('aria-label', 'Spoilies demo video: ' + V[k].name);
       f.setAttribute('aria-labelledby', 'tab-' + k);
       ['movies', 'tv'].forEach(function (j) { document.getElementById('tab-' + j).setAttribute('aria-selected', String(j === k)); });
+    });
+  });
+  // "See it in action" (FEAT-157): switch to the tapped side, then bring the videos to the middle of the screen.
+  // The link's own jump is stopped, so no # lands in the address bar (Analytics only ever sees the bare address). Nothing plays.
+  var sec = document.querySelector('.demo');
+  document.querySelectorAll('[data-jump]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var k = a.getAttribute('data-jump');
+      if (seg.dataset.on !== k) document.getElementById('tab-' + k).click();
+      var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      sec.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'center' });
+      try { b.focus({ preventScroll: true }); } catch (err) {}
     });
   });
 })();
